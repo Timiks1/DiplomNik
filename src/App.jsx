@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <div className='flex flex-col min-h-screen'>
-        <h5>Сделал групи во вкладке "Управління"</h5>
+
         <Navbar />
         <main className='w-full mx-auto flex-1 my-6 max-w-screen-xl px-2.5 bg-gray-50 shadow-xl rounded-lg'>
           <AppRouter />

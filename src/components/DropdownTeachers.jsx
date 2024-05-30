@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react';
-import ModalCreateGroup from './ModalCreateGroup';
-
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 }
 
-export default function Dropdown() {
-    const [groups, setGroups] = useState([]);
+export default function DropdownTeachers() {
+    const [teachers, setTeachers] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        fetch('/api/groups')
+        fetch('/api/teachers')
             .then(response => response.json())
-            .then(data => setGroups(data))
-            .catch(error => console.error('Error fetching groups:', error));
+            .then(data => setTeachers(data))
+            .catch(error => console.error('Error fetching teachers:', error));
     }, []);
 
     const openModal = () => {
@@ -31,7 +29,7 @@ export default function Dropdown() {
             <Menu as="div" className="relative justify-between w-full inline-block text-left">
                 <div className='flex justify-between'>
                     <MenuButton className="inline-flex w-full h-9 gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-                        {groups.length > 0 ? "Выберите группу" : "Нет данных от БД"}
+                        {teachers.length > 0 ? "Выберите преподавателя" : "Нет данных из БД"}
                     </MenuButton>
                 </div>
 
@@ -45,8 +43,8 @@ export default function Dropdown() {
                 >
                     <MenuItems className="absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-black">
                         <div className="py-1">
-                            {groups.map(group => (
-                                <MenuItem key={group._id}>
+                            {teachers.map(teacher => (
+                                <MenuItem key={teacher._id}>
                                     {({ focus }) => (
                                         <a
                                             href="#"
@@ -55,7 +53,7 @@ export default function Dropdown() {
                                                 'block px-4 py-2 text-sm'
                                             )}
                                         >
-                                            {group.name}
+                                            {teacher.name}
                                         </a>
                                     )}
                                 </MenuItem>
@@ -64,8 +62,6 @@ export default function Dropdown() {
                     </MenuItems>
                 </Transition>
             </Menu>
-            <button onClick={openModal} className='bg-sky-700 w-10 rounded-lg text-white'>+</button>
-            <ModalCreateGroup isOpen={isModalOpen} onClose={closeModal} />
         </div>
     )
 }

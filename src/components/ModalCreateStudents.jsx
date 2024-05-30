@@ -1,27 +1,28 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import axios from 'axios'; // Import Axios for making HTTP requests
+import axios from 'axios';
 
-export default function ModalCreateGroup({ isOpen, onClose }) {
-    const [groupName, setGroupName] = useState('');
+export default function ModalCreateStudents({ isOpen, onClose }) {
+    const [studentName, setStudentName] = useState('');
+    const [studentAge, setStudentAge] = useState('');
+    const [studentGrade, setStudentGrade] = useState('');
+    const [studentEmail, setStudentEmail] = useState('');
+    const [studentPhone, setStudentPhone] = useState('');
     const [course, setCourse] = useState('');
-    const [yearsRange, setYearsRange] = useState('');
 
-    const handleCreateGroup = async () => {
-        const [startYear, endYear] = yearsRange.split('-');
-
+    const handleCreateStudent = async () => {
         try {
-            // Make a POST request to your server endpoint
             const response = await axios.post('YOUR_SERVER_ENDPOINT', {
-                groupName,
-                course,
-                startYear,
-                endYear
+                name: studentName,
+                age: studentAge,
+                grade: studentGrade,
+                email: studentEmail,
+                phone: studentPhone
             });
 
-            console.log('Group created:', response.data);
+            console.log('Student created:', response.data);
         } catch (error) {
-            console.error('Error creating group:', error);
+            console.error('Error creating student:', error);
         }
     };
 
@@ -64,19 +65,9 @@ export default function ModalCreateGroup({ isOpen, onClose }) {
                         className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
                     >
                         <div className="mt-3 sm:text-center">
-                            <label htmlFor="group-name" className="block text-lg font-bold text-gray-700">
-                                Створення групи
-                            </label>
-                            <input
-                                type="text"
-                                id="group-name"
-                                className="mt-10 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                placeholder="Введіть назву групи"
-                                value={groupName}
-                                onChange={(e) => setGroupName(e.target.value)}
-                            />
-                            <label htmlFor="course" className="block text-sm font-medium text-gray-700 mt-10">
-                                Курс
+
+                            <label htmlFor="student-name" className="block text-lg pb-3 font-bold text-gray-700">
+                                Створення студента
                             </label>
                             <select
                                 id="course"
@@ -90,33 +81,57 @@ export default function ModalCreateGroup({ isOpen, onClose }) {
                                 <option value="3">3 курс</option>
                                 <option value="4">4 курс</option>
                             </select>
-                            <label htmlFor="years-range" className="block text-sm mt-10 font-medium text-gray-700">
-                                Початок та кінець навчання
-                            </label>
-                            <input
-                                type="text"
-                                id="years-range"
-                                className="mt-3 focus:ring-primary-500 focus:border-primary-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                placeholder="Начальный год - Конечный год"
-                                value={yearsRange}
-                                onChange={(e) => setYearsRange(e.target.value)}
-                            />
+                            <div className='flex gap-4'>
+                                <input
+                                    type="text"
+                                    id="student-name"
+                                    className="mt-5 focus:ring-primary-500 h-8 focus:border-primary-500 pl-3 border w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="ПІП студента"
+                                    value={studentName}
+                                    onChange={(e) => setStudentName(e.target.value)}
+                                />
+                                <input
+                                    type="text"
+                                    id="student-age"
+                                    className="mt-5 h-8 focus:ring-primary-500 focus:border-primary-500 pl-3 border w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Дата народження: dd.mm.yy"
+                                    value={studentAge}
+                                    onChange={(e) => setStudentAge(e.target.value)}
+                                />
+                            </div>
+                            <div className='flex gap-4'>
+                                <input
+                                    type="email"
+                                    id="student-email"
+                                    className="mt-3 h-8 focus:ring-primary-500 focus:border-primary-500 pl-3 border w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Пошта:student@gmail.com"
+                                    value={studentEmail}
+                                    onChange={(e) => setStudentEmail(e.target.value)}
+                                />
+                                <input
+                                    type="text"
+                                    id="student-phone"
+                                    className="mt-3 h-8 focus:ring-primary-500 focus:border-primary-500 pl-3 border w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Телефон: +380  __ ___ __ __"
+                                    value={studentPhone}
+                                    onChange={(e) => setStudentPhone(e.target.value)}
+                                />
+                            </div>
                             <div className='flex gap-10 justify-between'>
                                 <button
                                     type="button"
                                     onClick={onClose}
                                     className="mt-10 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-slate-400 bg-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                                 >
-                                    Скасувати
+                                    Отмена
                                 </button>
                                 <button
                                     type="button"
-                                    onClick={handleCreateGroup}
+                                    onClick={handleCreateStudent}
                                     className="mt-10 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-700 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                                 >
-                                    Створити групу
+                                    Создать студента
                                 </button>
-
                             </div>
                         </div>
                     </Transition.Child>

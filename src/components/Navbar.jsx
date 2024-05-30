@@ -24,11 +24,10 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/
 import { Link } from 'react-router-dom'
 
 const products = [
-    { name: 'Групи', description: 'Перелік та редагування груп', href: '#', icon: ChartPieIcon },
-    { name: 'Студенти', description: 'Перелік студентів та інформація', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Розклад', description: 'Редагування та складання розкладу', href: '#', icon: FingerPrintIcon },
-    { name: 'Вчителя', description: 'Перелік та створення вчителів', href: '#', icon: SquaresPlusIcon },
-    { name: 'Відомості', description: 'Перегляд та редагування відомостей', href: '#', icon: ArrowPathIcon },
+    { name: 'Викладачі', description: 'Перелік та інформація про вчителів', to: '/teachers', icon: SquaresPlusIcon },
+    { name: 'Планування', description: 'Планування та формування планів', to: '/planning', icon: ChartPieIcon },
+    { name: 'Дипломування', description: 'Звіти та створення дипломних робіт', to: '/schedule', icon: FingerPrintIcon },
+    { name: 'Тестування', description: 'Створення та редагування тестів', to: '/test', icon: ArrowPathIcon },
 ]
 const callsToAction = [
     { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
@@ -46,10 +45,10 @@ export default function Navbar() {
         <header className="bg-white">
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex lg:flex-1">
-                    <a href="#" className="-m-1.5 p-1.5">
+                    <Link to="/" className="-m-1.5 p-1.5">
                         <span className="sr-only">ITStep</span>
                         <img className="h-16 w-auto" src="https://3dncdn.com/assets/pravda/img/logos/it-step-logo-pravda.png" alt="" />
-                    </a>
+                    </Link>
                 </div>
                 <div className="flex lg:hidden">
                     <button
@@ -77,27 +76,25 @@ export default function Navbar() {
                             leaveTo="opacity-0 translate-y-1"
                         >
                             <PopoverPanel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                                <Link to="/groups">
-                                    <div className="p-4">
-                                        {products.map((item) => (
-                                            <div
-                                                key={item.name}
-                                                className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
-                                            >
-                                                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                                    <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
-                                                </div>
-                                                <div className="flex-auto">
-                                                    <a href={item.href} className="block font-semibold text-gray-900">
-                                                        {item.name}
-                                                        <span className="absolute inset-0" />
-                                                    </a>
-                                                    <p className="mt-1 text-gray-600">{item.description}</p>
-                                                </div>
+                                <div className="p-4">
+                                    {products.map((item) => (
+                                        <div
+                                            key={item.name}
+                                            className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                                        >
+                                            <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                                <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
                                             </div>
-                                        ))}
-                                    </div>
-                                </Link>
+                                            <div className="flex-auto">
+                                                <Link to={item.to} className="block font-semibold text-gray-900">
+                                                    {item.name}
+                                                    <span className="absolute inset-0" />
+                                                </Link>
+                                                <p className="mt-1 text-gray-600">{item.description}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                                     {callsToAction.map((item) => (
                                         <a
@@ -106,7 +103,6 @@ export default function Navbar() {
                                             className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                                         >
                                             <item.icon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
-
                                         </a>
                                     ))}
                                 </div>
@@ -114,15 +110,12 @@ export default function Navbar() {
                         </Transition>
                     </Popover>
 
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                    <Link to="/news" className="text-sm font-semibold leading-6 text-gray-900">
                         Новини
-                    </a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                    </Link>
+                    <Link to="/messages" className="text-sm font-semibold leading-6 text-gray-900">
                         Повідомлення
-                    </a>
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-                        Профіль
-                    </a>
+                    </Link>
                 </PopoverGroup>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
@@ -134,14 +127,14 @@ export default function Navbar() {
                 <div className="fixed inset-0 z-10" />
                 <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
-                        <a href="#" className="-m-1.5 p-1.5">
+                        <Link to="/" className="-m-1.5 p-1.5">
                             <span className="sr-only">Your Company</span>
                             <img
                                 className="h-8 w-auto"
                                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                                 alt=""
                             />
-                        </a>
+                        </Link>
                         <button
                             type="button"
                             className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -166,32 +159,30 @@ export default function Navbar() {
                                             </DisclosureButton>
                                             <DisclosurePanel className="mt-2 space-y-2">
                                                 {[...products, ...callsToAction].map((item) => (
-                                                    <DisclosureButton
+                                                    <Link
                                                         key={item.name}
-                                                        as="a"
-                                                        href={item.href}
+                                                        to={item.to}
                                                         className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                                     >
                                                         {item.name}
-                                                    </DisclosureButton>
+                                                    </Link>
                                                 ))}
                                             </DisclosurePanel>
                                         </>
                                     )}
                                 </Disclosure>
-                                <a
-                                    href="#"
+                                <Link
+                                    to="/news"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Новини
-                                </a>
-                                <a
-                                    href="#"
+                                </Link>
+                                <Link
+                                    to="/profile"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Профіль
-                                </a>
-
+                                </Link>
                             </div>
                             <div className="py-6">
                                 <a
