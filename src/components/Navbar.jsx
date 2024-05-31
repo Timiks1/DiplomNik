@@ -21,7 +21,7 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate  } from 'react-router-dom'
 
 const products = [
     { name: 'Викладачі', description: 'Перелік та інформація про вчителів', to: '/teachers', icon: SquaresPlusIcon },
@@ -40,7 +40,17 @@ function classNames(...classes) {
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+
+        navigate('/login');
+        window.location.reload(); // Перезагружаем страницу
+
+    };  
     return (
         <header className="bg-white">
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -118,9 +128,9 @@ export default function Navbar() {
                     </Link>
                 </PopoverGroup>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+                    <button onClick={handleLogout} className="text-sm font-semibold leading-6 text-gray-900">
                         Вихід <span aria-hidden="true">&rarr;</span>
-                    </a>
+                    </button>
                 </div>
             </nav>
             <Dialog className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -185,12 +195,12 @@ export default function Navbar() {
                                 </Link>
                             </div>
                             <div className="py-6">
-                                <a
-                                    href="#"
-                                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                <button
+                                    onClick={handleLogout}
+                                    className="-mx-3 block w-full rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Вихід
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
