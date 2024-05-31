@@ -11,6 +11,7 @@ const TeachersPage = () => {
   const [syllabi, setSyllabi] = useState([]);
   const [activities, setActivities] = useState([]);
   const [individualPlans, setIndividualPlans] = useState([]);
+  const [traineeships, setTraineeships] = useState([]);
   const [error, setError] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const serverService = useServer();
@@ -58,9 +59,13 @@ const TeachersPage = () => {
       const individualPlansResponse = await serverService.getIndividualPlansByUserId(user.id);
       setIndividualPlans(individualPlansResponse.items);
       console.log('Individual Plans fetched:', individualPlansResponse.items);
+
+      const traineeshipsResponse = await serverService.getTraineeshipsByUserId(user.id);
+      setTraineeships(traineeshipsResponse.items);
+      console.log('Traineeships fetched:', traineeshipsResponse.items);
     } catch (err) {
-      console.error('Error fetching syllabi, activities or individual plans:', err);
-      setError('Error fetching syllabi, activities or individual plans');
+      console.error('Error fetching data:', err);
+      setError('Error fetching data');
     }
   };
 
@@ -70,6 +75,7 @@ const TeachersPage = () => {
     setSyllabi([]);
     setActivities([]);
     setIndividualPlans([]);
+    setTraineeships([]);
   };
 
   const downloadFile = (fileContent, fileName) => {
@@ -112,7 +118,22 @@ const TeachersPage = () => {
           <p className="text-gray-700 mb-2">Email: {selectedUser.email}</p>
           <p className="text-gray-700 mb-2">Phone: {selectedUser.phoneNumber}</p>
           <p className="text-gray-700 mb-2">Department: {selectedUser.departmentName}</p>
-          
+
+          <h3 className="text-xl font-semibold mt-4 mb-2">Traineeships</h3>
+          <ul className="list-disc pl-5">
+            {traineeships.map(traineeship => (
+              <li key={traineeship.id} className="mb-2">
+                {traineeship.name}
+                <button
+                  onClick={() => downloadFile(traineeship.file, `${traineeship.name}.pdf`)}
+                  className="ml-4 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Download
+                </button>
+              </li>
+            ))}
+          </ul>
+
           <h3 className="text-xl font-semibold mt-4 mb-2">Syllabi</h3>
           <ul className="list-disc pl-5">
             {syllabi.map(syllabus => (

@@ -100,6 +100,17 @@ class ServerService {
   get currentUserValue() {
     return this.currentUserSubject.value;
   }
+  getUserById(userId) {
+    return axios.get(`${this.baseUrl}/Users/${userId}`)
+      .then(response => {
+        console.log('GetUserById response:', response.data);
+        return response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching user by ID:', error);
+        throw error;
+      });
+  }
   getDepartments() {
     return axios.get(`${this.baseUrl}/Departments`)
       .then(response => {
@@ -155,6 +166,38 @@ class ServerService {
         throw error;
       });
   }
+  getTraineeshipsByUserId(userId) {
+    return axios.get(`${this.baseUrl}/Traineeships/GetByUserId/${userId}`)
+      .then(response => {
+        console.log('GetTraineeshipsByUserId response:', response.data);
+        return response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching traineeships by user ID:', error);
+        throw error;
+      });
+  }
+  getTeacherTests() {
+    return axios.get(`${this.baseUrl}/TeacherTests`)
+      .then(response => {
+        console.log('GetTeacherTests response:', response.data);
+        return response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching teacher tests:', error);
+        throw error;
+      });
+  }
+  async updateTeacherTest(testId, updatedTest) {
+    try {
+        console.log(updatedTest);
+        const response = await axios.put(`${this.baseUrl}/TeacherTests/${testId}`, updatedTest);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating teacher test:', error);
+        throw error;
+    }
+}
   logout() {
     // Удаляем пользователя из локального хранилища
     localStorage.removeItem('currentUser');
